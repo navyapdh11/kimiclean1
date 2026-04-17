@@ -1,8 +1,11 @@
 import { Resend } from 'resend';
 import { createClient } from './supabase';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
 const MAX_RETRIES = 3;
+
+function getResend() {
+  return new Resend(process.env.RESEND_API_KEY || '');
+}
 
 export async function sendWithRetry(
   to: string,
@@ -13,7 +16,7 @@ export async function sendWithRetry(
   const supabase = createClient();
   
   try {
-    const { data, error } = await resend.emails.send({
+    const { data, error } = await getResend().emails.send({
       from: `${process.env.RESEND_FROM_NAME} <${process.env.RESEND_FROM_EMAIL}>`,
       to,
       subject,

@@ -3,10 +3,12 @@ import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { stripe } from '@/lib/stripe';
 import { createClient } from '@/lib/supabase';
-import { Resend } from 'resend';
 import SubscriptionRenewalEmail from '@/emails/SubscriptionRenewal';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+function getResendInstance() {
+  const { Resend } = require('resend');
+  return new Resend(process.env.RESEND_API_KEY || '');
+}
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 const processedEvents = new Set<string>();
 
@@ -55,7 +57,7 @@ export async function POST(req: Request) {
         if (sub) {
           const { data: user } = await supabase.auth.admin.getUserById(sub.user_id);
           if (user.user?.email) {
-            await resend.emails.send({
+            await getResendInstance().emails.send({
               from: `KimiClean <billing@kimiclean.com>`,
               to: user.user.email,
               subject: 'Your Subscription Renewed',
