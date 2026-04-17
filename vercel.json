@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "regions": ["syd1", "sin1", "hkg1"],
   "headers": [
     {
       "source": "/api/(.*)",
