@@ -43,8 +43,7 @@ function ParticleField({
   radius?: number;
   rotationSpeed?: [number, number];
 }) {
-  const ref = useRef<any>(null);
-  const { invalidate } = useFrame((state) => state);
+  const ref = useRef<THREE.Points>(null);
 
   const sphere = useState(() =>
     random.inSphere(new Float32Array(count * 3), { radius })
@@ -55,9 +54,6 @@ function ParticleField({
 
     ref.current.rotation.x -= delta / rotationSpeed[0];
     ref.current.rotation.y -= delta / rotationSpeed[1];
-
-    // Manual invalidate for on-demand rendering
-    invalidate();
   });
 
   return (
