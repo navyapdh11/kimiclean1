@@ -2,7 +2,6 @@
 
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Points, PointMaterial } from '@react-three/drei';
-// @ts-expect-error maath has no types
 import * as random from 'maath/random/dist/maath-random.esm';
 import { useState, useRef, Suspense, Component, ReactNode } from 'react';
 import * as THREE from 'three';
